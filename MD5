@@ -1,0 +1,14 @@
+3fef7f38cefe4644770a32c969045286 *DESCRIPTION
+2941c60232bfe55c051d46dfe16ef7a6 *NAMESPACE
+9095cb4e46f672e0e82a00fab0dc577e *R/artistInfo.R
+ad8f5609fb4c51e04902dad8c9b87df8 *R/discography.R
+c3b67fe7b1778658739bbd871bad61b8 *R/lyrics.R
+b6ae3c61a8125bca9591112d67eee29c *R/relatedInfo.R
+a7b8609c42c91cff169dc9928c838f73 *R/songNames.R
+25d45517638e48452acbbb968cd0eb0a *R/topLyrics.R
+49aaf6e3c5a3cf8de40438a10bd40999 *man/artistInfo.Rd
+007f5fe63537e1df61e589f82f03299c *man/discography.Rd
+215ad2213cdb2df737549a516b0389d8 *man/lyrics.Rd
+e547807a434beb145d9c96e27ebd8399 *man/relatedInfo.Rd
+d73b54e920c79373dcb580ae8152ef6e *man/songNames.Rd
+f34953c47659701acfd635859a9ed64c *man/topLyrics.Rd
