@@ -4,10 +4,13 @@
 \alias{songNames}
 \title{Song names of an artist/band.}
 \usage{
-songNames(name)
+songNames(name, message = TRUE)
 }
 \arguments{
 \item{name}{The name of the artist/band.}
+
+\item{message}{Should the function print something if the
+required data is not found?}
 }
 \value{
 \code{relatedInfo} returns a data.frame with information
@@ -30,5 +33,5 @@ songNames("chico-buarque")
 
 }
 \author{
-Bruna Wundervald, \email{brunadaviesw@ufpr.br}.
+Bruna Wundervald, \email{brunadaviesw@gmail.com}.
 }

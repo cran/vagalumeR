@@ -1,5 +1,5 @@
 #' @name lyrics
-#' @author Bruna Wundervald, \email{brunadaviesw@ufpr.br}.
+#' @author Bruna Wundervald, \email{brunadaviesw@gmail.com}.
 #' @export
 #' @title Lyrics of a song.
 #' @description Gives the lyrics text of a song and the translation text,
@@ -8,6 +8,8 @@
 #' @param type The type of identifier os the song ("name" or "id").
 #' @param artist The name of the artist/band.
 #' @param key The apikey.
+#' @param message Should the function print something if the
+#' required data is not found?
 #' @return \code{lyrics} returns a data.frame with information
 #'     about the artist, the song and the texts.
 #' @details The variables returned by the function are extracted with
@@ -26,8 +28,9 @@
 #' type <- "id"
 #' lyrics(identifier = identifier, type = type, key = key)
 #' }
-
-lyrics <- function(identifier, type, artist, key){
+lyrics <- function(identifier, type, artist, key, message = TRUE){
+  artist <- stringr::str_to_lower(artist)
+  
   if(type == "id"){
     req <-httr::GET(paste("https://api.vagalume.com.br/search.php?musid=",
                           identifier,"&apikey=", key))
@@ -37,7 +40,8 @@ lyrics <- function(identifier, type, artist, key){
                            artist,"&mus=",identifier,"&extra=relmus&apikey=", key))
   }
 
-  cont <- httr::content(req)
+  cont <- httr::content(req, encoding = "UTF-8")
+  if(!is.null(cont)){
 
   l <- lapply(cont$mus, "[", c("id", "name", "lang", "text"))
   l <- plyr::ldply(l, data.frame)
@@ -51,13 +55,19 @@ lyrics <- function(identifier, type, artist, key){
   mus$text <- as.character(mus$text)
   mus$text <- stringr::str_replace_all(mus$text, "[\n]" , " ")
 
-  if(cont$mus[[1]]$lang > 1){
-    tr <- lapply(cont$mus[[1]]$translate, "[", c("text"))
-    tr <- plyr::ldply(tr, data.frame)
-    mus <- data.frame(mus, tr$text)
-    mus$tr.text <- as.character(mus$tr.text)
-    mus$tr.text <- stringr::str_replace_all(mus$tr.text, "[\n]" , " ")
+  if(!is.null(cont$mus[[1]]$lang) && cont$mus[[1]]$lang > 1){
+    if(!is.null(cont$mus[[1]]$translate)){
+      tr <- lapply(cont$mus[[1]]$translate, "[", c("text"))
+      tr <- plyr::ldply(tr, data.frame)
+      mus <- data.frame(mus, tr$text)
+      mus$tr.text <- as.character(mus$tr.text)
+      mus$tr.text <- stringr::str_replace_all(mus$tr.text, "[\n]" , " ")
+    }
   }
 
+  } else{ 
+    mus <- NULL
+    if(message) print("Lyrics not found") }
   return(mus)
 }
+
